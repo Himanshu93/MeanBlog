@@ -45,7 +45,13 @@ export class PostCreateComponent implements OnInit {
         this.postService.getPost(this.postId).subscribe(postData => {
           // Ending spinner
           this.isLoading = false;
-          this.post = {id: postData._id, title: postData.title, content: postData.content, imagePath: postData.imagePath};
+          this.post = {
+            id: postData._id,
+            title: postData.title,
+            content: postData.content,
+            imagePath: postData.imagePath,
+            creator: postData.creator
+          };
           this.form.setValue({title: this.post.title, content: this.post.content, image: this.post.imagePath});
         });
       } else {
@@ -61,7 +67,7 @@ export class PostCreateComponent implements OnInit {
     this.form.get('image').updateValueAndValidity();
     const reader = new FileReader();
     reader.onload = () => {
-      this.imagePreview = reader.result;
+      this.imagePreview = reader.result as string;
     };
     reader.readAsDataURL(file);
   }
